@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 14:25:45 by lauger            #+#    #+#             */
-/*   Updated: 2023/11/06 08:31:53 by lauger           ###   ########.fr       */
+/*   Updated: 2024/02/09 11:16:48 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,5 +104,8 @@ int			ft_strlen_map(char **map);
 char		**ft_strcpy_map(char **original, int height, int width);
 long long	ft_atol(const char *str);
 void		ft_free_lst(t_list *head);
+char		*ft_strcpy(char *dest, const char *src);
+char		*ft_strcat(char *dest, const char *src);
+char		*ft_strncpy(char *dest, const char *src, size_t n);
 
 #endif

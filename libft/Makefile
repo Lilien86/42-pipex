@@ -51,6 +51,9 @@ SOURCES += \
     ./string/ft_strcpy_map.c \
     ./string/ft_strlen_map.c \
     ./string/ft_atol.c \
+	./string/ft_strcpy.c \
+	./string/ft_strcat.c \
+	./string/ft_strncpy.c \
     ./link_list/ft_lstmap.c \
     ./link_list/ft_lstnew.c \
     ./link_list/ft_lstclear.c \

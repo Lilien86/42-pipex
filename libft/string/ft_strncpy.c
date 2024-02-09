@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcpy_map.c                                    :+:      :+:    :+:   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/27 07:31:21 by lilien            #+#    #+#             */
-/*   Updated: 2024/02/09 11:20:11 by lauger           ###   ########.fr       */
+/*   Created: 2024/02/09 11:14:28 by lauger            #+#    #+#             */
+/*   Updated: 2024/02/09 11:16:35 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	**ft_strcpy_map(char **original, int height, int width)
+
+char *ft_strncpy(char *dest, const char *src, size_t n)
 {
-	int		i;
-	char	**cpy;
+	size_t	i;
 
 	i = 0;
-	cpy = ft_calloc(height + 1, sizeof(char *));
-	while (i < height)
+	while (i < n && src[i] != '\0')
 	{
-		cpy[i] = ft_calloc((width + 1), sizeof(char));
-		ft_strcpy(cpy[i], original[i]);
+		dest[i] = src[i];
 		i++;
 	}
-	return (cpy);
+	while (i < n)
+	{
+		dest[i] = '\0';
+		i++;
+	}
+	return (dest);
 }
