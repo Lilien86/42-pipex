@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 09:29:55 by marvin            #+#    #+#             */
-/*   Updated: 2024/02/12 12:36:39 by lauger           ###   ########.fr       */
+/*   Updated: 2024/02/12 14:05:39 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,12 @@ void	ft_check_args(int ac, char **av, t_pipex *pipex)
 {
 	pipex->infile = av[1];
 	pipex->outfile = av[ac - 1];
-	if (ac != 5)
+	/*if (ac != 5)
 	{
 		ft_putstr_fd("\033[31mError: Bad arguments\n\e[0m", 2);
 		ft_putstr_fd("example of use: ./pipex <file1> <cmd1> <cmd2> <file2>\n", 1);
 		exit(EXIT_FAILURE);
-	}
+	}*/
 	pipex->fd_infile = open(pipex->infile, O_RDONLY);
 	if (pipex->fd_infile == -1)
 	{
@@ -94,17 +94,17 @@ void	ft_parse_commands(int ac, char **av, t_pipex *pipex, char *env[])
 		{
 			pipex->paths[j] = ft_strdup(pipex->cmds[j][0]);
 			if (access(pipex->paths[j], X_OK) == 0)
-				printf("La commande '%s' is accessible.\n",  pipex->cmds[j][0]);
+				printf("'%s' is accessible.\n",  pipex->cmds[j][0]);
 			else
-				printf("La commande '%s' is not accessible.\n",  pipex->cmds[j][0]);
+				printf("'%s' is not accessible.\n",  pipex->cmds[j][0]);
 		}
 		else
 		{
 			pipex->paths[j] = check_command_existence(pipex->cmds[j][0], env);
 			if (pipex->paths[j] == NULL)
-				printf("command '%s' is not accessible.\n",  pipex->cmds[j][0]);
+				printf("'%s' is not accessible.\n",  pipex->cmds[j][0]);
 			else
-				printf("command '%s' is accessible.\n",  pipex->cmds[j][0]);
+				printf("'%s' is accessible.\n",  pipex->cmds[j][0]);
 		}
 		i++;
 		j++;
@@ -119,10 +119,7 @@ int	main(int ac, char **av, char *env[])
 	ft_check_args(ac, av, pipex);
 	ft_parse_commands(ac, av, pipex, env);
 
-	for (int i = 0; pipex->paths[i]; i++)
-	{
-		ft_printf("%d--->%s\n", i, pipex->paths[i]);
-	}
+	pid_t p = fork();
 
 	free_all(pipex);
 	return (0);
