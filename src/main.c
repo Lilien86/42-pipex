@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 09:29:55 by marvin            #+#    #+#             */
-/*   Updated: 2024/02/09 14:36:39 by lauger           ###   ########.fr       */
+/*   Updated: 2024/02/12 12:36:39 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_pipex	*init_pipex()
 {
 	t_pipex	*pipex;
 
-	pipex = malloc(sizeof(t_pipex));
+	pipex = ft_calloc(sizeof(t_pipex), 1);
 	if (pipex == NULL)
 	{
 		perror("Error:\nfailure to allocate pipex");
@@ -83,8 +83,8 @@ void	ft_parse_commands(int ac, char **av, t_pipex *pipex, char *env[])
 
 	i = 2;
 	j = 0;
-	pipex->cmds = ft_calloc(sizeof(char *), ac - 3);
-	pipex->paths = ft_calloc(sizeof(char *), ac - 3);
+	pipex->cmds = ft_calloc(sizeof(char *), ac - 2);
+	pipex->paths = ft_calloc(sizeof(char *), ac - 2);
 	if (!pipex->cmds || !pipex->paths)
 		return ;
 	while (i < (ac - 1))
@@ -100,7 +100,7 @@ void	ft_parse_commands(int ac, char **av, t_pipex *pipex, char *env[])
 		}
 		else
 		{
-			pipex->paths[j] = ft_strdup(check_command_existence(pipex->cmds[j][0], env));
+			pipex->paths[j] = check_command_existence(pipex->cmds[j][0], env);
 			if (pipex->paths[j] == NULL)
 				printf("command '%s' is not accessible.\n",  pipex->cmds[j][0]);
 			else
@@ -118,6 +118,11 @@ int	main(int ac, char **av, char *env[])
 	pipex = init_pipex();
 	ft_check_args(ac, av, pipex);
 	ft_parse_commands(ac, av, pipex, env);
+
+	for (int i = 0; pipex->paths[i]; i++)
+	{
+		ft_printf("%d--->%s\n", i, pipex->paths[i]);
+	}
 
 	free_all(pipex);
 	return (0);
