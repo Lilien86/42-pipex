@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 09:29:55 by marvin            #+#    #+#             */
-/*   Updated: 2024/02/12 14:05:39 by lauger           ###   ########.fr       */
+/*   Updated: 2024/02/13 10:53:42 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ t_pipex	*init_pipex()
 		perror("Error:\nfailure to allocate pipex");
 		exit(EXIT_FAILURE);
 	}
+	pipex->nb_elems = 0;
 	pipex->fd_infile = 0;
 	pipex->fd_outfile = 0;
 	pipex->infile = NULL;
@@ -66,7 +67,7 @@ void	ft_check_args(int ac, char **av, t_pipex *pipex)
 		perror("\033[31mErreur: to open the input file\n\e[0m");
 		exit(EXIT_FAILURE);
 	}
-	pipex->fd_outfile = open(pipex->outfile, O_WRONLY, 0644);
+	pipex->fd_outfile = open(pipex->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (pipex->fd_outfile == -1)
 	{
 		perror("\033[31mErreur: to open the output file\n\e[0m");
@@ -109,18 +110,23 @@ void	ft_parse_commands(int ac, char **av, t_pipex *pipex, char *env[])
 		i++;
 		j++;
 	}
+	pipex->nb_elems = i - 3;
 }
 
 int	main(int ac, char **av, char *env[])
 {
 	t_pipex	*pipex;
+	int		i;
 
+	i = 0;
 	pipex = init_pipex();
 	ft_check_args(ac, av, pipex);
 	ft_parse_commands(ac, av, pipex, env);
-
-	pid_t p = fork();
-
+	while (pipex->cmds[i])
+	{
+		ft_exec(pipex, i);
+		i++;
+	}
 	free_all(pipex);
 	return (0);
 }

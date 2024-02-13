@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 11:07:07 by lauger            #+#    #+#             */
-/*   Updated: 2024/02/12 09:26:21 by lauger           ###   ########.fr       */
+/*   Updated: 2024/02/13 10:47:14 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,9 @@
 # include <sys/wait.h>
 # include "libft.h"
 
-# define MAX_PATH_LENGTH 256
-
 typedef struct	s_pipex
 {
+	int			nb_elems;
 	int			fd_infile;
     int			fd_outfile;
 	char		*infile;
@@ -39,5 +38,6 @@ void	free_all(t_pipex *pipex);
 char	*get_command_path(const char *command_name);
 char	*check_command_existence(const char *cmd, char *env[]);
 int		is_path(char *s);
+void	ft_exec(t_pipex *pipex, int i);
 
 #endif
