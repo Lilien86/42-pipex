@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 09:29:55 by marvin            #+#    #+#             */
-/*   Updated: 2024/02/13 10:53:42 by lauger           ###   ########.fr       */
+/*   Updated: 2024/02/13 14:24:11 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,8 @@ int	main(int ac, char **av, char *env[])
 		ft_exec(pipex, i);
 		i++;
 	}
+	close(pipex->fd_infile);
+	close(pipex->fd_outfile);
 	free_all(pipex);
 	return (0);
 }
