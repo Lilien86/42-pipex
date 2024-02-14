@@ -4,7 +4,6 @@ FT_PRINTF_H	libft/ft_printf/ft_printf.h	14
 GET_NEXT_LINE_BONUS_H	libft/gnl/get_next_line_bonus.h	14
 GET_NEXT_LINE_H	libft/gnl/get_next_line.h	14
 LIBFT_H	libft/libft.h	14
-MAX_PATH_LENGTH	src/pipex.h	25
 Mmain	src/main.c	/^int	main(int ac, char **av, char *env[])$/
 PIPEX_H	src/pipex.h	14
 check_base	libft/ft_printf/ft_putnbr_base_len.c	/^static int	check_base(char *base)$/
@@ -13,16 +12,16 @@ check_command_existence	src/utils.c	/^char	*check_command_existence(const char *
 check_str_char	libft/gnl/get_next_line_utils_bonus.c	/^int	check_str_char(char *line, char *buffer)$/
 check_str_char	libft/gnl/get_next_line_utils.c	/^int	check_str_char(char *line, char *buffer)$/
 checkerror	libft/string/ft_atoi_base.c	/^int	checkerror(char *str)$/
-cmds	src/pipex.h	33
+cmds	src/pipex.h	32
 cmp_char	libft/string/ft_memcmp.c	/^	cmp_char(char c1, char c2)$/
 cmp_char	libft/string/ft_strncmp.c	/^	cmp_char(char c1, char c2)$/
 content	libft/libft.h	21
-fd_infile	src/pipex.h	29
-fd_outfile	src/pipex.h	30
+fd_infile	src/pipex.h	28
+fd_outfile	src/pipex.h	29
 fill	libft/string/ft_itoa.c	/^static void	fill(char *str, int idx, int n)$/
 find_command_in_directory	src/utils.c	/^static char	*find_command_in_directory(const char /
 free_all	src/utils.c	/^void free_all(t_pipex *pipex)$/
-free_commands	src/utils.c	/^void free_commands(t_pipex *pipex)$/
+free_commands	src/utils.c	/^void free_commands(t_pipex *pipex, int size)$/
 ft_atoi	libft/string/ft_atoi.c	/^int	ft_atoi(const char *str)$/
 ft_atoi_base	libft/string/ft_atoi_base.c	/^int	ft_atoi_base(char *str, char *base)$/
 ft_atol	libft/string/ft_atol.c	/^long long	ft_atol(const char *str)$/
@@ -33,6 +32,7 @@ ft_check_format	libft/ft_printf/ft_printf.c	/^static int	ft_check_format(char *s
 ft_check_pointer	libft/ft_printf/ft_printf.c	/^static int	ft_check_pointer(long long p)$/
 ft_checkchar	libft/string/ft_strtrim.c	/^static int	ft_checkchar(const char c, const char */
 ft_cntletters	libft/string/ft_split.c	/^static size_t	ft_cntletters(const char *s, size_t /
+ft_exec	src/execute.c	/^void	ft_exec(t_pipex *pipex, int i)$/
 ft_free_lst	libft/link_list/ft_free_lst.c	/^void	ft_free_lst(t_list *head)$/
 ft_free_tab	libft/string/ft_free_tab.c	/^void	ft_free_tab(char **str)$/
 ft_init	libft/ft_printf/ft_printf.c	/^static void	ft_init(size_t *read, int *cnt_char)$/
@@ -97,17 +97,19 @@ ft_verif	libft/gnl/get_next_line.c	/^static int	ft_verif(char **buffer, char **l
 ft_wcount	libft/string/ft_split.c	/^static size_t	ft_wcount(const char *str, char sep)/
 get_next_line	libft/gnl/get_next_line_bonus.c	/^char	*get_next_line(int fd)$/
 get_next_line	libft/gnl/get_next_line.c	/^char	*get_next_line(int fd)$/
-infile	src/pipex.h	31
+handle_here_doc	src/hande_here_doc.c	/^void handle_here_doc(char *limiter)$/
+infile	src/pipex.h	30
 init_pipex	src/main.c	/^t_pipex	*init_pipex()$/
 int_len	libft/string/ft_itoa.c	/^static int	int_len(int i)$/
 is_path	src/utils.c	/^int	is_path(char *s)$/
 nb_base	libft/string/ft_atoi_base.c	/^int	nb_base(char str, char *base)$/
+nb_elems	src/pipex.h	27
 next	libft/libft.h	22
-outfile	src/pipex.h	32
-paths	src/pipex.h	34
+outfile	src/pipex.h	31
+paths	src/pipex.h	33
 print_commands	src/main.c	/^void	print_commands(t_pipex *pipex)$/
 s_list	libft/libft.h	19
-s_pipex	src/pipex.h	27
+s_pipex	src/pipex.h	25
 t_list	libft/libft.h	23
-t_pipex	src/pipex.h	36
+t_pipex	src/pipex.h	35
 whitespaces	libft/string/ft_atoi_base.c	/^int	whitespaces(char *str, int *ptr_i)$/

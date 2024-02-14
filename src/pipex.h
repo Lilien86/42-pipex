@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 11:07:07 by lauger            #+#    #+#             */
-/*   Updated: 2024/02/13 10:47:14 by lauger           ###   ########.fr       */
+/*   Updated: 2024/02/14 12:14:53 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,14 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 # include "libft.h"
+# include <stdbool.h>
 
 typedef struct	s_pipex
 {
 	int			nb_elems;
 	int			fd_infile;
-    int			fd_outfile;
+	int			fd_outfile;
+	int			pipe_hd[2];
 	char		*infile;
 	char		*outfile;
 	char		***cmds;
@@ -39,5 +41,6 @@ char	*get_command_path(const char *command_name);
 char	*check_command_existence(const char *cmd, char *env[]);
 int		is_path(char *s);
 void	ft_exec(t_pipex *pipex, int i);
-
+void	ft_exec_here_doc(t_pipex *pipex, int i);
+void	handle_here_doc(char *limiter, t_pipex *pipex);
 #endif

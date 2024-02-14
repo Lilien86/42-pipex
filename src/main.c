@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 09:29:55 by marvin            #+#    #+#             */
-/*   Updated: 2024/02/13 14:24:11 by lauger           ###   ########.fr       */
+/*   Updated: 2024/02/14 12:15:35 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ t_pipex	*init_pipex()
 	pipex->fd_outfile = 0;
 	pipex->infile = NULL;
 	pipex->outfile = NULL;
+	pipex->pipe_hd[0] = -1;
+	pipex->pipe_hd[1] = -1;
 	pipex->cmds = NULL;
 	pipex->cmds = NULL;
 
@@ -53,20 +55,21 @@ t_pipex	*init_pipex()
 
 void	ft_check_args(int ac, char **av, t_pipex *pipex)
 {
-	pipex->infile = av[1];
-	pipex->outfile = av[ac - 1];
-	/*if (ac != 5)
+	if (ft_strncmp(av[1], "here_doc", ft_strlen("here_doc")) == 0)
 	{
-		ft_putstr_fd("\033[31mError: Bad arguments\n\e[0m", 2);
-		ft_putstr_fd("example of use: ./pipex <file1> <cmd1> <cmd2> <file2>\n", 1);
-		exit(EXIT_FAILURE);
-	}*/
-	pipex->fd_infile = open(pipex->infile, O_RDONLY);
-	if (pipex->fd_infile == -1)
-	{
-		perror("\033[31mErreur: to open the input file\n\e[0m");
-		exit(EXIT_FAILURE);
+		handle_here_doc(av[2], pipex);
 	}
+	else
+	{
+		pipex->infile = av[1];
+		pipex->fd_infile = open(pipex->infile, O_RDONLY);
+		if (pipex->fd_infile == -1)
+		{
+			perror("\033[31mErreur: to open the input file\n\e[0m");
+			exit(EXIT_FAILURE);
+		}
+	}
+	pipex->outfile = av[ac - 1];
 	pipex->fd_outfile = open(pipex->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (pipex->fd_outfile == -1)
 	{
@@ -81,13 +84,20 @@ void	ft_parse_commands(int ac, char **av, t_pipex *pipex, char *env[])
 	(void)env;
 	int	i;
 	int	j;
+	int	k;
 
 	i = 2;
 	j = 0;
+	k = 0;
 	pipex->cmds = ft_calloc(sizeof(char *), ac - 2);
 	pipex->paths = ft_calloc(sizeof(char *), ac - 2);
 	if (!pipex->cmds || !pipex->paths)
 		return ;
+	if (ft_strncmp(av[1], "here_doc", ft_strlen("here_doc")) == 0)
+	{
+		k += 1;
+		i += k;
+	}
 	while (i < (ac - 1))
 	{
 		pipex->cmds[j] = ft_split(av[i], ' ');
@@ -110,7 +120,7 @@ void	ft_parse_commands(int ac, char **av, t_pipex *pipex, char *env[])
 		i++;
 		j++;
 	}
-	pipex->nb_elems = i - 3;
+	pipex->nb_elems = i - (3 + k);
 }
 
 int	main(int ac, char **av, char *env[])
@@ -122,10 +132,21 @@ int	main(int ac, char **av, char *env[])
 	pipex = init_pipex();
 	ft_check_args(ac, av, pipex);
 	ft_parse_commands(ac, av, pipex, env);
-	while (pipex->cmds[i])
+	if (ft_strncmp(av[1], "here_doc", ft_strlen("here_doc")) == 0)
 	{
-		ft_exec(pipex, i);
-		i++;
+		while (pipex->cmds[i])
+		{
+			ft_exec_here_doc(pipex, i);
+			i++;
+		}
+	}
+	else
+	{
+		while (pipex->cmds[i])
+		{
+			ft_exec(pipex, i);
+			i++;
+		}
 	}
 	close(pipex->fd_infile);
 	close(pipex->fd_outfile);

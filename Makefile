@@ -6,7 +6,7 @@
 #    By: lauger <lauger@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/06 11:01:31 by marvin            #+#    #+#              #
-#    Updated: 2024/02/13 10:44:54 by lauger           ###   ########.fr        #
+#    Updated: 2024/02/14 11:32:03 by lauger           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -I $(LIBFT)
 LDFLAGS = -L $(LIBFT) -lft
 
-SRC = ./src/main.c ./src/utils.c ./src/execute.c
+SRC = ./src/main.c ./src/utils.c ./src/execute.c ./src/execute_here_doc.c \
+./src/hande_here_doc.c
 
 OBJ = $(SRC:.c=.o)
 
