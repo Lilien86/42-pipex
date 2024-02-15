@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": ".",
-      "program": "build/Debug/outDebug",
+      "cwd": "/tmp/42-pipex/src",
+      "program": "/tmp/42-pipex/src/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

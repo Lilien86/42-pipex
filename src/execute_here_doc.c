@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 11:05:39 by lauger            #+#    #+#             */
-/*   Updated: 2024/02/15 11:33:32 by lauger           ###   ########.fr       */
+/*   Updated: 2024/02/15 14:31:34 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	ft_exec_here_doc(t_pipex *pipex, int i)
 			}
 			close(pipex->pipe_hd[0]);
 		}
-		if (i == pipex->nb_elems)
+		if (i == pipex->nb_elems - 1)
 		{
 			if(dup2(pipex->pipe_hd[1], STDOUT_FILENO) == -1)
 			{
