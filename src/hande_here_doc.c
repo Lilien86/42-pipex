@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 09:05:20 by lauger            #+#    #+#             */
-/*   Updated: 2024/02/14 13:54:37 by lauger           ###   ########.fr       */
+/*   Updated: 2024/02/15 12:20:17 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,14 @@ void handle_here_doc(char *limiter, t_pipex *pipex)
 		{
 			line = get_next_line(fd_stdin);
 			if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
+			{
+				get_next_line(-12);
 				break;
+			}
 			write(pipex->pipe_hd[1], line, ft_strlen(line));
 			free(line);
 		}
+		free(line);
 		close(pipex->pipe_hd[1]);
 	}
 	else

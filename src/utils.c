@@ -6,11 +6,25 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 11:05:49 by marvin            #+#    #+#             */
-/*   Updated: 2024/02/12 12:36:23 by lauger           ###   ########.fr       */
+/*   Updated: 2024/02/15 11:28:52 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	ft_free_tab_size(char **str, int size)
+{
+	int	i;
+
+	i = 0;
+	while (i < size)
+	{
+		if (str[i] != NULL)
+			free(str[i]);
+		i++;
+	}
+	free(str);
+}
 
 void free_commands(t_pipex *pipex, int size)
 {
@@ -39,14 +53,10 @@ void free_all(t_pipex *pipex)
 {
 	if (pipex != NULL)
 	{
-		/*if (pipex->infile != NULL)
-			free(pipex->infile);
-		if (pipex->outfile != NULL)
-			free(pipex->outfile);*/
 		if (pipex->paths != NULL)
-			ft_free_tab(pipex->paths);
+			ft_free_tab_size(pipex->paths, pipex->nb_elems);
 		if (pipex->cmds != NULL)
-			free_commands(pipex, ft_strlen_map(*pipex->cmds));
+			free_commands(pipex, pipex->nb_elems);
 	}
 	free(pipex);
 }

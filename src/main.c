@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 09:29:55 by marvin            #+#    #+#             */
-/*   Updated: 2024/02/14 12:15:35 by lauger           ###   ########.fr       */
+/*   Updated: 2024/02/15 12:06:57 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,11 @@ t_pipex	*init_pipex()
 	pipex->nb_elems = 0;
 	pipex->fd_infile = 0;
 	pipex->fd_outfile = 0;
-	pipex->infile = NULL;
-	pipex->outfile = NULL;
+	pipex->here_doc = 0;
 	pipex->pipe_hd[0] = -1;
 	pipex->pipe_hd[1] = -1;
+	pipex->infile = NULL;
+	pipex->outfile = NULL;
 	pipex->cmds = NULL;
 	pipex->cmds = NULL;
 
@@ -56,16 +57,14 @@ t_pipex	*init_pipex()
 void	ft_check_args(int ac, char **av, t_pipex *pipex)
 {
 	if (ft_strncmp(av[1], "here_doc", ft_strlen("here_doc")) == 0)
-	{
 		handle_here_doc(av[2], pipex);
-	}
 	else
 	{
 		pipex->infile = av[1];
 		pipex->fd_infile = open(pipex->infile, O_RDONLY);
 		if (pipex->fd_infile == -1)
 		{
-			perror("\033[31mErreur: to open the input file\n\e[0m");
+			perror("\033[31mError:\nto open the input file\n\e[0m");
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -73,7 +72,7 @@ void	ft_check_args(int ac, char **av, t_pipex *pipex)
 	pipex->fd_outfile = open(pipex->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (pipex->fd_outfile == -1)
 	{
-		perror("\033[31mErreur: to open the output file\n\e[0m");
+		perror("\033[31mError:\nto open the output file\n\e[0m");
 		exit(EXIT_FAILURE);
 	}
 }
@@ -95,8 +94,8 @@ void	ft_parse_commands(int ac, char **av, t_pipex *pipex, char *env[])
 		return ;
 	if (ft_strncmp(av[1], "here_doc", ft_strlen("here_doc")) == 0)
 	{
-		k += 1;
-		i += k;
+		i++;
+		pipex->here_doc += 1;
 	}
 	while (i < (ac - 1))
 	{
@@ -113,14 +112,17 @@ void	ft_parse_commands(int ac, char **av, t_pipex *pipex, char *env[])
 		{
 			pipex->paths[j] = check_command_existence(pipex->cmds[j][0], env);
 			if (pipex->paths[j] == NULL)
+			{
+				ft_printf("%s\n", pipex->paths[j]);
 				printf("'%s' is not accessible.\n",  pipex->cmds[j][0]);
+			}
 			else
 				printf("'%s' is accessible.\n",  pipex->cmds[j][0]);
 		}
 		i++;
 		j++;
 	}
-	pipex->nb_elems = i - (3 + k);
+	pipex->nb_elems = ac - 3 - pipex->here_doc;
 }
 
 int	main(int ac, char **av, char *env[])

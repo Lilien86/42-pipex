@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 11:07:07 by lauger            #+#    #+#             */
-/*   Updated: 2024/02/14 12:14:53 by lauger           ###   ########.fr       */
+/*   Updated: 2024/02/15 09:11:03 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct	s_pipex
 	int			fd_infile;
 	int			fd_outfile;
 	int			pipe_hd[2];
+	int			here_doc;
 	char		*infile;
 	char		*outfile;
 	char		***cmds;

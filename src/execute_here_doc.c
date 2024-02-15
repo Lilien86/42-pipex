@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 11:05:39 by lauger            #+#    #+#             */
-/*   Updated: 2024/02/14 13:59:47 by lauger           ###   ########.fr       */
+/*   Updated: 2024/02/15 11:33:32 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ void	ft_exec_here_doc(t_pipex *pipex, int i)
 
 	if(pipe(pipefd) < 0)
 	{
-		free(pipex);
+		free_all(pipex);
 		perror("\033[31mError:\nto use the pipe\n\e[0m");
 		exit(EXIT_FAILURE);
 	}
 	pid = fork();
 	if (pid == -1)
 	{
-		free(pipex);
+		free_all(pipex);
 		perror("\033[31mError:\nto use the fork\n\e[0m");
 		exit(EXIT_FAILURE);
 	}
@@ -34,7 +34,6 @@ void	ft_exec_here_doc(t_pipex *pipex, int i)
 	{
 		if (close(pipefd[0]) == -1)
 		{
-			free(pipex);
 			perror("\033[31mError:\nto use the pipe\n\e[0m");
 			exit(EXIT_FAILURE);
 		}
@@ -42,7 +41,7 @@ void	ft_exec_here_doc(t_pipex *pipex, int i)
 		{
 			if(dup2(pipex->pipe_hd[0], STDIN_FILENO) == -1)
 			{
-				free(pipex);
+
 				perror("\033[31mError:\nto use the function dup2\n\e[0m");
 				exit(EXIT_FAILURE);
 			}
@@ -52,7 +51,7 @@ void	ft_exec_here_doc(t_pipex *pipex, int i)
 		{
 			if(dup2(pipex->pipe_hd[1], STDOUT_FILENO) == -1)
 			{
-				free(pipex);
+
 				perror("\033[31mError:\nto use the function dup2\n\e[0m");
 				exit(EXIT_FAILURE);
 			}
@@ -62,14 +61,15 @@ void	ft_exec_here_doc(t_pipex *pipex, int i)
 		{
 			if(dup2(pipefd[1], STDOUT_FILENO) == -1)
 			{
-				free(pipex);
+
 				perror("\033[31mError:\nto use the function dup2\n\e[0m");
 				exit(EXIT_FAILURE);
 			}
 			close(pipefd[1]);
 		}
-		execve(pipex->paths[i], pipex->cmds[i], NULL);
-		perror("\033[31mErreur:\nduring execution of the command\n\e[0m");
+		if (pipex->paths[i] != NULL)
+			execve(pipex->paths[i], pipex->cmds[i], NULL);
+		perror("\033[31mError:\nduring execution of the command\n\e[0m");
 	}
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 14:29:45 by lauger            #+#    #+#             */
-/*   Updated: 2024/02/14 08:39:59 by lauger           ###   ########.fr       */
+/*   Updated: 2024/02/15 10:52:37 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ void	ft_exec(t_pipex *pipex, int i)
 			}
 			close(pipefd[1]);
 		}
-		execve(pipex->paths[i], pipex->cmds[i], NULL);
-		perror("\033[31mErreur:\n during execution of the child process\n\e[0m");
-		exit(EXIT_FAILURE);
+		if (pipex->paths[i] != NULL)
+			execve(pipex->paths[i], pipex->cmds[i], NULL);
+		perror("\033[31mError:\nduring execution of the child process\n\e[0m");
 	}
 	else
 	{

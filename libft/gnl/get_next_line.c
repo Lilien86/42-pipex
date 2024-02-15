@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 09:35:35 by lauger            #+#    #+#             */
-/*   Updated: 2023/11/23 13:35:44 by lauger           ###   ########.fr       */
+/*   Updated: 2024/02/15 12:19:18 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@ char	*get_next_line(int fd)
 	char		*line;
 	int			r;
 
+	if (fd == -12)
+	{
+		free(buffer);
+		return (NULL);
+	}
 	if (ft_verif(&buffer, &line))
 		return (NULL);
 	while (check_str_char(line, buffer) == 0)
