@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 11:05:39 by lauger            #+#    #+#             */
-/*   Updated: 2024/02/16 13:56:31 by lauger           ###   ########.fr       */
+/*   Updated: 2024/02/16 14:00:44 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ void	ft_exec_here_doc(t_pipex *pipex, int i)
 	}
 	else
 	{
-		//close(pipex->pipe_hd[0]);
 		close(pipefd[1]);
 		waitpid(pid, NULL, 0);
 		dup2(pipefd[0], STDIN_FILENO);

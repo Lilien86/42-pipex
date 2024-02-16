@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 09:05:20 by lauger            #+#    #+#             */
-/*   Updated: 2024/02/16 13:52:17 by lauger           ###   ########.fr       */
+/*   Updated: 2024/02/16 14:25:24 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	handle_child(char *limiter, t_pipex *pipex, int fd_stdin)
 	while (true)
 	{
 		line = get_next_line(0);
-		if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
+		if (line == NULL || ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
 		{
 			get_next_line(-12);
 			break ;
