@@ -6,7 +6,7 @@
 #    By: lauger <lauger@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/06 11:01:31 by marvin            #+#    #+#              #
-#    Updated: 2024/02/14 11:32:03 by lauger           ###   ########.fr        #
+#    Updated: 2024/02/16 13:52:44 by lauger           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ LIBFT = ./libft
 LIBFT_LIBRARY = $(LIBFT)/libft.a
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I $(LIBFT)
+CFLAGS = -I $(LIBFT)
 LDFLAGS = -L $(LIBFT) -lft
 
 SRC = ./src/main.c ./src/utils.c ./src/execute.c ./src/execute_here_doc.c \

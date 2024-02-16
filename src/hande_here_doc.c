@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 09:05:20 by lauger            #+#    #+#             */
-/*   Updated: 2024/02/16 11:47:43 by lauger           ###   ########.fr       */
+/*   Updated: 2024/02/16 13:52:17 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	handle_child(char *limiter, t_pipex *pipex, int fd_stdin)
 	close(pipex->pipe_hd[0]);
 	while (true)
 	{
-		line = get_next_line(fd_stdin);
+		line = get_next_line(0);
 		if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
 		{
 			get_next_line(-12);
@@ -38,7 +38,7 @@ void	handle_here_doc(char *limiter, t_pipex *pipex)
 	pid_t	pid;
 	int		fd_stdin;
 
-	fd_stdin = dup(0);
+	// fd_stdin = dup(0);
 	if (pipe(pipex->pipe_hd) == -1)
 	{
 		perror("\033[31mError:\nto use the pipe\n\e[0m");

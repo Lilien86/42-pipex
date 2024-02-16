@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 11:05:39 by lauger            #+#    #+#             */
-/*   Updated: 2024/02/16 13:17:24 by lauger           ###   ########.fr       */
+/*   Updated: 2024/02/16 13:56:31 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,23 +34,23 @@ static void	handle_child(int pipefd[2], t_pipex *pipex, int i)
 	if (i == 0)
 	{
 		dup2(pipex->pipe_hd[0], STDIN_FILENO);
-		close(pipex->pipe_hd[0]);
+		//close(pipex->pipe_hd[0]);
 	}
 	if (i == pipex->nb_elems - 1)
 	{
 		dup2(pipex->pipe_hd[1], STDOUT_FILENO);
-		close(pipex->pipe_hd[1]);
+		//close(pipex->pipe_hd[1]);
 	}
 	else
 	{
 		dup2(pipefd[1], STDOUT_FILENO);
-		close(pipefd[1]);
+		//close(pipefd[1]);
 	}
 	//close_fd(pipex, pipefd);
 	close(pipefd[0]);
 	close(pipefd[1]);
+
 	close(pipex->pipe_hd[0]);
-	close(pipex->pipe_hd[1]);
 	close(pipex->fd_outfile);
 	if (pipex->paths[i] != NULL)
 		execve(pipex->paths[i], pipex->cmds[i], NULL);
@@ -84,8 +84,9 @@ void	ft_exec_here_doc(t_pipex *pipex, int i)
 	{
 		//close(pipex->pipe_hd[0]);
 		close(pipefd[1]);
-		waitpid(-1, NULL, 0);
+		waitpid(pid, NULL, 0);
 		dup2(pipefd[0], STDIN_FILENO);
+		close(pipex->pipe_hd[0]);
 		close(pipefd[0]);
 	}
 }
