@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 11:05:49 by marvin            #+#    #+#             */
-/*   Updated: 2024/02/15 11:28:52 by lauger           ###   ########.fr       */
+/*   Updated: 2024/02/16 12:48:26 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void free_all(t_pipex *pipex)
 int	is_path(char *s)
 {
 	int	i;
-	
+
 	i = 0;
 	while (s[i])
 	{

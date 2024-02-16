@@ -6,18 +6,39 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 09:05:20 by lauger            #+#    #+#             */
-/*   Updated: 2024/02/15 12:20:17 by lauger           ###   ########.fr       */
+/*   Updated: 2024/02/16 11:47:43 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void handle_here_doc(char *limiter, t_pipex *pipex)
+static void	handle_child(char *limiter, t_pipex *pipex, int fd_stdin)
+{
+	char	*line;
+
+	close(pipex->pipe_hd[0]);
+	while (true)
+	{
+		line = get_next_line(fd_stdin);
+		if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
+		{
+			get_next_line(-12);
+			break ;
+		}
+		write(pipex->pipe_hd[1], line, ft_strlen(line));
+		free(line);
+	}
+	free(line);
+	close(pipex->pipe_hd[1]);
+	exit(0);
+}
+
+void	handle_here_doc(char *limiter, t_pipex *pipex)
 {
 	pid_t	pid;
-	char	*line;
-	int fd_stdin = dup(0);
-	
+	int		fd_stdin;
+
+	fd_stdin = dup(0);
 	if (pipe(pipex->pipe_hd) == -1)
 	{
 		perror("\033[31mError:\nto use the pipe\n\e[0m");
@@ -33,24 +54,8 @@ void handle_here_doc(char *limiter, t_pipex *pipex)
 	}
 	else if (pid == 0)
 	{
-		close(pipex->pipe_hd[0]);
-		while(true)
-		{
-			line = get_next_line(fd_stdin);
-			if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
-			{
-				get_next_line(-12);
-				break;
-			}
-			write(pipex->pipe_hd[1], line, ft_strlen(line));
-			free(line);
-		}
-		free(line);
-		close(pipex->pipe_hd[1]);
+		handle_child(limiter, pipex, fd_stdin);
 	}
-	else
-	{
-		waitpid(-1, NULL, 0);
-		close(pipex->pipe_hd[1]);
-	}
+	waitpid(-1, NULL, 0);
+	close(pipex->pipe_hd[1]);
 }

@@ -6,31 +6,13 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 09:29:55 by marvin            #+#    #+#             */
-/*   Updated: 2024/02/15 12:06:57 by lauger           ###   ########.fr       */
+/*   Updated: 2024/02/16 11:34:12 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	print_commands(t_pipex *pipex)
-{
-	int i, j;
-	for (i = 0; i < 2; i++)
-	{
-		printf("\033[31mCommande %d : \n\e[0m", i + 1);
-		if (pipex->cmds[i] == NULL) {
-			printf("NULL\n");
-			continue;
-		}
-		for (j = 0; pipex->cmds[i][j] != NULL; j++)
-		{
-			printf("%s \n", pipex->cmds[i][j]);
-		}
-		printf("-----\n");
-	}
-}
-
-t_pipex	*init_pipex()
+static t_pipex	*init_pipex(void)
 {
 	t_pipex	*pipex;
 
@@ -50,11 +32,10 @@ t_pipex	*init_pipex()
 	pipex->outfile = NULL;
 	pipex->cmds = NULL;
 	pipex->cmds = NULL;
-
 	return (pipex);
 }
 
-void	ft_check_args(int ac, char **av, t_pipex *pipex)
+static void	ft_check_args(int ac, char **av, t_pipex *pipex)
 {
 	if (ft_strncmp(av[1], "here_doc", ft_strlen("here_doc")) == 0)
 		handle_here_doc(av[2], pipex);
@@ -69,7 +50,8 @@ void	ft_check_args(int ac, char **av, t_pipex *pipex)
 		}
 	}
 	pipex->outfile = av[ac - 1];
-	pipex->fd_outfile = open(pipex->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	pipex->fd_outfile = open(pipex->outfile, O_WRONLY
+			| O_CREAT | O_TRUNC, 0644);
 	if (pipex->fd_outfile == -1)
 	{
 		perror("\033[31mError:\nto open the output file\n\e[0m");
@@ -77,17 +59,44 @@ void	ft_check_args(int ac, char **av, t_pipex *pipex)
 	}
 }
 
-
-void	ft_parse_commands(int ac, char **av, t_pipex *pipex, char *env[])
+static void	ft_parse_commands_two(int ac, char **av,
+	t_pipex *pipex, char *env[], int i)
 {
-	(void)env;
-	int	i;
 	int	j;
-	int	k;
+
+	j = 0;
+	while (i < (ac - 1))
+	{
+		pipex->cmds[j] = ft_split(av[i], ' ');
+		if (is_path(pipex->cmds[j][0]) == 1)
+		{
+			pipex->paths[j] = ft_strdup(pipex->cmds[j][0]);
+			if (access(pipex->paths[j], X_OK) == 0)
+				ft_printf("'%s' is accessible.\n", pipex->cmds[j][0]);
+			else
+				ft_printf("'%s' is not accessible.\n", pipex->cmds[j][0]);
+		}
+		else
+		{
+			pipex->paths[j] = check_command_existence(pipex->cmds[j][0], env);
+			if (pipex->paths[j] == NULL)
+			{
+				ft_printf("%s\n", pipex->paths[j]);
+				ft_printf("'%s' is not accessible.\n", pipex->cmds[j][0]);
+			}
+			else
+				ft_printf("'%s' is accessible.\n", pipex->cmds[j][0]);
+		}
+		i++;
+		j++;
+	}
+}
+
+static void	ft_parse_commands(int ac, char **av, t_pipex *pipex, char *env[])
+{
+	int	i;
 
 	i = 2;
-	j = 0;
-	k = 0;
 	pipex->cmds = ft_calloc(sizeof(char *), ac - 2);
 	pipex->paths = ft_calloc(sizeof(char *), ac - 2);
 	if (!pipex->cmds || !pipex->paths)
@@ -97,43 +106,12 @@ void	ft_parse_commands(int ac, char **av, t_pipex *pipex, char *env[])
 		i++;
 		pipex->here_doc += 1;
 	}
-	while (i < (ac - 1))
-	{
-		pipex->cmds[j] = ft_split(av[i], ' ');
-		if (is_path(pipex->cmds[j][0]) == 1)
-		{
-			pipex->paths[j] = ft_strdup(pipex->cmds[j][0]);
-			if (access(pipex->paths[j], X_OK) == 0)
-				printf("'%s' is accessible.\n",  pipex->cmds[j][0]);
-			else
-				printf("'%s' is not accessible.\n",  pipex->cmds[j][0]);
-		}
-		else
-		{
-			pipex->paths[j] = check_command_existence(pipex->cmds[j][0], env);
-			if (pipex->paths[j] == NULL)
-			{
-				ft_printf("%s\n", pipex->paths[j]);
-				printf("'%s' is not accessible.\n",  pipex->cmds[j][0]);
-			}
-			else
-				printf("'%s' is accessible.\n",  pipex->cmds[j][0]);
-		}
-		i++;
-		j++;
-	}
+	ft_parse_commands_two(ac, av, pipex, env, i);
 	pipex->nb_elems = ac - 3 - pipex->here_doc;
 }
 
-int	main(int ac, char **av, char *env[])
+static void	handle_execution(t_pipex *pipex, int i, char **av)
 {
-	t_pipex	*pipex;
-	int		i;
-
-	i = 0;
-	pipex = init_pipex();
-	ft_check_args(ac, av, pipex);
-	ft_parse_commands(ac, av, pipex, env);
 	if (ft_strncmp(av[1], "here_doc", ft_strlen("here_doc")) == 0)
 	{
 		while (pipex->cmds[i])
@@ -150,6 +128,18 @@ int	main(int ac, char **av, char *env[])
 			i++;
 		}
 	}
+}
+
+int	main(int ac, char **av, char *env[])
+{
+	t_pipex	*pipex;
+	int		i;
+
+	i = 0;
+	pipex = init_pipex();
+	ft_check_args(ac, av, pipex);
+	ft_parse_commands(ac, av, pipex, env);
+	handle_execution(pipex, i, av);
 	close(pipex->fd_infile);
 	close(pipex->fd_outfile);
 	free_all(pipex);
