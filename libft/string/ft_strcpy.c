@@ -6,13 +6,13 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 11:11:04 by lauger            #+#    #+#             */
-/*   Updated: 2024/02/12 09:53:22 by lauger           ###   ########.fr       */
+/*   Updated: 2024/03/01 19:55:01 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char *ft_strcpy(char *dest, const char *src)
+char	*ft_strcpy(char *dest, const char *src)
 {
 	char	*ptr;
 

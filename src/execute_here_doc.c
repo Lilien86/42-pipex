@@ -6,23 +6,34 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 11:05:39 by lauger            #+#    #+#             */
-/*   Updated: 2024/02/16 14:00:44 by lauger           ###   ########.fr       */
+/*   Updated: 2024/03/01 18:10:43 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-/*void	close_fd(t_pipex *pipex, int pipefd[2])
+static void	handle_child_two(int pipefd[2], t_pipex *pipex, int i)
 {
-	if (close(pipefd[0]) == -1 | close(pipefd[1]) == -1
-		| close(pipex->pipe_hd[0]) == -1 | close(pipex->pipe_hd[1]) == -1
-		| close(pipex->fd_outfile) == -1)
+	if (i == pipex->nb_elems - 1)
+	{
+		dup2(pipex->pipe_hd[1], STDOUT_FILENO);
+	}
+	else
+	{
+		dup2(pipefd[1], STDOUT_FILENO);
+	}
+	close(pipefd[0]);
+	close(pipefd[1]);
+	close(pipex->pipe_hd[0]);
+	close(pipex->fd_outfile);
+	if (!pipex->paths[i])
 	{
 		free_all(pipex);
-		perror("Error:\nclosing file descriptor");
+		ft_putstr_fd("\033[31mError:\ncommand not found:\033[0m", 2);
 		exit(EXIT_FAILURE);
 	}
-}*/
+	execve(pipex->paths[i], pipex->cmds[i], pipex->env);
+}
 
 static void	handle_child(int pipefd[2], t_pipex *pipex, int i)
 {
@@ -34,28 +45,8 @@ static void	handle_child(int pipefd[2], t_pipex *pipex, int i)
 	if (i == 0)
 	{
 		dup2(pipex->pipe_hd[0], STDIN_FILENO);
-		//close(pipex->pipe_hd[0]);
 	}
-	if (i == pipex->nb_elems - 1)
-	{
-		dup2(pipex->pipe_hd[1], STDOUT_FILENO);
-		//close(pipex->pipe_hd[1]);
-	}
-	else
-	{
-		dup2(pipefd[1], STDOUT_FILENO);
-		//close(pipefd[1]);
-	}
-	//close_fd(pipex, pipefd);
-	close(pipefd[0]);
-	close(pipefd[1]);
-
-	close(pipex->pipe_hd[0]);
-	close(pipex->fd_outfile);
-	if (pipex->paths[i] != NULL)
-		execve(pipex->paths[i], pipex->cmds[i], NULL);
-	perror("\033[31mError:\nduring execution of the command\n\e[0m");
-	exit(EXIT_SUCCESS);
+	handle_child_two(pipefd, pipex, i);
 }
 
 void	ft_exec_here_doc(t_pipex *pipex, int i)
@@ -80,12 +71,9 @@ void	ft_exec_here_doc(t_pipex *pipex, int i)
 	{
 		handle_child(pipefd, pipex, i);
 	}
-	else
-	{
-		close(pipefd[1]);
-		waitpid(pid, NULL, 0);
-		dup2(pipefd[0], STDIN_FILENO);
-		close(pipex->pipe_hd[0]);
-		close(pipefd[0]);
-	}
+	close(pipefd[1]);
+	waitpid(pid, NULL, 0);
+	dup2(pipefd[0], STDIN_FILENO);
+	close(pipex->pipe_hd[0]);
+	close(pipefd[0]);
 }

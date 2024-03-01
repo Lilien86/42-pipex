@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <lauger@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 17:06:31 by marvin            #+#    #+#             */
-/*   Updated: 2023/11/04 17:06:31 by marvin           ###   ########.fr       */
+/*   Updated: 2024/03/01 20:08:51 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ char	**ft_split(char const *s, char sep)
 	size_t			start;
 	size_t			j;
 	size_t			i;
+
 	if (s[0] == '\0' || s == NULL)
 		return (NULL);
 	ft_init_vars(&start, &i, &j);

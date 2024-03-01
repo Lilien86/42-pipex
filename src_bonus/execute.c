@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 14:29:45 by lauger            #+#    #+#             */
-/*   Updated: 2024/03/01 19:44:34 by lauger           ###   ########.fr       */
+/*   Updated: 2024/03/01 20:33:20 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	close_pipe(int pipefd[2], t_pipex *pipex)
 
 static void	handle_child_two(int pipefd[2], t_pipex *pipex, int i)
 {
-	if (i == pipex->nb_elems - 1)
+	if (i == pipex->nb_exec - 1)
 	{
 		dup2(pipex->fd_outfile, STDOUT_FILENO);
 		if (pipex->fd_infile != -1)
@@ -91,14 +91,13 @@ void	ft_exec(t_pipex *pipex, int i)
 
 void	handle_execution(t_pipex *pipex, int i, char **av)
 {
-	int	size;
 
-	size = pipex->nb_elems;
+	pipex->nb_exec = pipex->nb_elems;
 	if (ft_strncmp(av[1], "here_doc", ft_strlen("here_doc")) == 0)
 	{
-		if (pipex->fd_outfile == -1)
-			size--;
-		while (i < size)
+		//if (pipex->fd_outfile == -1 || pipex->cmds[pipex->nb_elems] == NULL)
+		pipex->nb_exec--;
+		while (i < pipex->nb_exec)
 		{
 			ft_exec_here_doc(pipex, i);
 			i++;
@@ -106,9 +105,9 @@ void	handle_execution(t_pipex *pipex, int i, char **av)
 	}
 	else
 	{
-		if (pipex->fd_outfile == -1)
-			size--;
-		while (i < size)
+		//if (pipex->fd_outfile == -1 || pipex->cmds[pipex->nb_elems] == NULL)
+		pipex->nb_exec--;
+		while (i < pipex->nb_exec)
 		{
 			ft_exec(pipex, i);
 			i++;

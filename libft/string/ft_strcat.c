@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 11:13:02 by lauger            #+#    #+#             */
-/*   Updated: 2024/02/12 12:19:15 by lauger           ###   ########.fr       */
+/*   Updated: 2024/03/01 19:53:44 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,11 @@ char	*ft_strcat(char *dest, const char *src)
 	ptr = dest;
 	while (*dest)
 		dest++;
-	while ((*dest = *src))
+	while (*dest == *src)
 	{
 		dest++;
 		src++;
+		*dest = *src;
 	}
 	*dest = '\0';
 	return (ptr);

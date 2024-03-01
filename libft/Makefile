@@ -1,6 +1,6 @@
 CFLAGS = -g -Wall -Wextra -Werror -I. -I./check_char -I./management_memory -I./string -I./link_list -fPIE
 NAME = libft.a
-CC = cc
+CC = /bin/cc
 
 SOURCES += \
     ./check_char/ft_isdigit.c \
@@ -70,13 +70,13 @@ OBJECTS = $(SOURCES:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJECTS)
-	ar rcs $(NAME) $(OBJECTS)
+	/bin/ar rcs $(NAME) $(OBJECTS)
 
 clean:
-	rm -f $(OBJECTS)
+	/bin/rm -f $(OBJECTS)
 
 fclean: clean
-	rm -f $(NAME)
+	/bin/rm -f $(NAME)
 
 re: fclean all
 

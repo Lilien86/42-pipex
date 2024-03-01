@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 09:35:35 by lauger            #+#    #+#             */
-/*   Updated: 2024/02/15 12:19:18 by lauger           ###   ########.fr       */
+/*   Updated: 2024/02/28 09:36:32 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ char	*get_next_line(int fd)
 		r = read(fd, buffer, BUFFER_SIZE);
 		if (r <= 0)
 		{
+			if (r == 0 && *line)
+				return (line);
 			free(buffer);
 			buffer = NULL;
 			if (*line)
