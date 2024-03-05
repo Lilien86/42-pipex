@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   parsing_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 11:32:22 by lauger            #+#    #+#             */
-/*   Updated: 2024/03/01 19:24:54 by lauger           ###   ########.fr       */
+/*   Updated: 2024/03/05 09:31:10 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,6 @@ static void	ft_check_args_two(int ac, char **av, t_pipex *pipex)
 	if (av[ac - 1][0] == '\0')
 	{
 		perror("\033[31mError:\nto open the output file \e[0m");
-		close_pipe(NULL, pipex);
-		free_all(pipex);
-		exit(EXIT_FAILURE);
 	}
 	pipex->outfile = av[ac - 1];
 	if (ft_strncmp(av[1], "here_doc", ft_strlen("here_doc")) == 0)
@@ -78,6 +75,8 @@ void	ft_parse_commands(int ac, char **av, t_pipex *pipex, char *env[])
 	int	i;
 
 	i = 2;
+	if (*av[ac - 2] == '\0')
+		ac --;
 	pipex->env = env;
 	pipex->cmds = ft_calloc(sizeof(char *), ac - 2);
 	pipex->paths = ft_calloc(sizeof(char *), ac - 2);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 11:05:49 by marvin            #+#    #+#             */
-/*   Updated: 2024/03/01 09:54:59 by lauger           ###   ########.fr       */
+/*   Updated: 2024/03/05 10:40:04 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,14 @@ static char	*find_command_in_directory(const char *cmd, const char *directory)
 	return (command_path);
 }
 
-static char	*check_command_existence_two(const char *cmd, char *env[],
-	char **directories, char	*result)
+static char	*check_command_existence_two(const char *cmd, char **directories)
 {
 	char	*command_path;
+	char	*result;
 	int		i;
 
 	i = 0;
+	result = NULL;
 	while (directories[i] != NULL)
 	{
 		command_path = find_command_in_directory(cmd, directories[i]);
@@ -54,15 +55,8 @@ static char	*check_command_existence_two(const char *cmd, char *env[],
 	return (result);
 }
 
-char	*check_command_existence(const char *cmd, char *env[])
+static void	*search_path(char *env[], int i, char *path)
 {
-	char	*path;
-	char	*result;
-	char	**directories;
-	int		i;
-
-	path = NULL;
-	i = -1;
 	while (env[++i] != NULL)
 	{
 		if (ft_strncmp(env[i], "PATH=", 5) == 0)
@@ -73,12 +67,27 @@ char	*check_command_existence(const char *cmd, char *env[])
 			break ;
 		}
 	}
+	return (path);
+}
+
+char	*check_command_existence(const char *cmd, char *env[])
+{
+	char	*path;
+	char	*result;
+	char	**directories;
+	int		i;
+
+	path = NULL;
+	i = -1;
+	path = search_path(env, i, path);
 	if (path == NULL)
 		return (NULL);
 	directories = ft_split(path, ':');
 	free(path);
 	if (!directories)
 		return (NULL);
-	result = NULL;
-	return (check_command_existence_two(cmd, env, directories, result));
+	result = check_command_existence_two(cmd, directories);
+	if (!result)
+		return (NULL);
+	return (result);
 }

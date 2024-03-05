@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 11:05:39 by lauger            #+#    #+#             */
-/*   Updated: 2024/03/01 20:33:29 by lauger           ###   ########.fr       */
+/*   Updated: 2024/03/01 18:10:43 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	handle_child_two(int pipefd[2], t_pipex *pipex, int i)
 {
-	if (i == pipex->nb_exec - 1)
+	if (i == pipex->nb_elems - 1)
 	{
 		dup2(pipex->pipe_hd[1], STDOUT_FILENO);
 	}

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pars_here_doc.c                                    :+:      :+:    :+:   */
+/*   pars_here_doc_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 09:05:20 by lauger            #+#    #+#             */
-/*   Updated: 2024/03/01 14:51:29 by lauger           ###   ########.fr       */
+/*   Updated: 2024/03/05 08:34:16 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ static int	is_limiter(char *line, char *tmp, char *limiter)
 	return (0);
 }
 
-static void	handle_while_two(char **line, char **tmp, char *limiter)
+static void	handle_while_two(char **line, char **tmp)
 {
-	if (*line && (*line)[0] == '\0' || *line
-		&& (*line)[ft_strlen(*line) - 1] == '\n')
+	if ((*line && (*line)[0] == '\0')
+		|| (*line && (*line)[ft_strlen(*line) - 1] == '\n'))
 	{
 		write (1, "here_doc > ", 11);
 		free(*tmp);
@@ -41,7 +41,7 @@ static void	handle_while(char **line, char **tmp, char *limiter)
 {
 	while (true)
 	{
-		handle_while_two(line, tmp, limiter);
+		handle_while_two(line, tmp);
 		*tmp = get_next_line(0);
 		if (*tmp)
 		{
@@ -62,7 +62,7 @@ static void	handle_while(char **line, char **tmp, char *limiter)
 	}
 }
 
-static void	handle_child(char *limiter, t_pipex *pipex, int fd_stdin)
+static void	handle_child(char *limiter, t_pipex *pipex)
 {
 	char	*line;
 	char	*tmp;
@@ -84,7 +84,6 @@ static void	handle_child(char *limiter, t_pipex *pipex, int fd_stdin)
 void	handle_here_doc(char *limiter, t_pipex *pipex)
 {
 	pid_t	pid;
-	int		fd_stdin;
 
 	if (pipe(pipex->pipe_hd) == -1)
 	{
@@ -100,7 +99,7 @@ void	handle_here_doc(char *limiter, t_pipex *pipex)
 		exit(EXIT_FAILURE);
 	}
 	else if (pid == 0)
-		handle_child(limiter, pipex, fd_stdin);
+		handle_child(limiter, pipex);
 	waitpid(-1, NULL, 0);
 	close(pipex->pipe_hd[1]);
 }

@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 14:29:45 by lauger            #+#    #+#             */
-/*   Updated: 2024/03/01 19:44:34 by lauger           ###   ########.fr       */
+/*   Updated: 2024/03/05 12:40:04 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,13 +99,12 @@ void	handle_execution(t_pipex *pipex, int i, char **av)
 		if (pipex->fd_outfile == -1)
 			size--;
 		while (i < size)
-		{
-			ft_exec_here_doc(pipex, i);
-			i++;
-		}
+			ft_exec_here_doc(pipex, i++);
 	}
 	else
 	{
+		if (pipex->existance_infile == 1)
+			i++;
 		if (pipex->fd_outfile == -1)
 			size--;
 		while (i < size)

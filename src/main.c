@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 09:29:55 by marvin            #+#    #+#             */
-/*   Updated: 2024/03/01 19:47:21 by lauger           ###   ########.fr       */
+/*   Updated: 2024/03/05 12:28:59 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	main(int ac, char **av, char *env[])
 	int		i;
 
 	i = 0;
-	if (ac >= 5)
+	if (ac <= 5)
 	{
 		pipex = init_pipex();
 		ft_check_args(ac, av, pipex);
@@ -52,7 +52,6 @@ int	main(int ac, char **av, char *env[])
 			close(pipex->fd_infile);
 		if (pipex->fd_outfile != -1)
 			close(pipex->fd_outfile);
-		free_all(pipex);
 		free_all(pipex);
 	}
 	else

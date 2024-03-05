@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 14:40:21 by lauger            #+#    #+#             */
-/*   Updated: 2024/02/27 10:20:53 by lauger           ###   ########.fr       */
+/*   Updated: 2024/03/05 12:46:17 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*ft_strjoin_modif(char *s1, char *s2)
 
 	if (s1 == 0 || s2 == 0)
 		return (NULL);
-	str = ft_calloc(sizeof(*s1) , (ft_strlen(s1) + ft_strlen(s2) + 1));
+	str = ft_calloc(sizeof(*s1), (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!str)
 		return (NULL);
 	i = 0;

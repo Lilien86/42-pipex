@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   parsing_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 11:32:22 by lauger            #+#    #+#             */
-/*   Updated: 2024/03/01 19:24:54 by lauger           ###   ########.fr       */
+/*   Updated: 2024/03/05 12:27:43 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,6 @@ static void	ft_check_args_two(int ac, char **av, t_pipex *pipex)
 	if (av[ac - 1][0] == '\0')
 	{
 		perror("\033[31mError:\nto open the output file \e[0m");
-		close_pipe(NULL, pipex);
-		free_all(pipex);
-		exit(EXIT_FAILURE);
 	}
 	pipex->outfile = av[ac - 1];
 	if (ft_strncmp(av[1], "here_doc", ft_strlen("here_doc")) == 0)
@@ -29,7 +26,7 @@ static void	ft_check_args_two(int ac, char **av, t_pipex *pipex)
 		pipex->fd_outfile = open(pipex->outfile, O_WRONLY
 				| O_CREAT | O_TRUNC, 0644);
 	if (pipex->fd_outfile == -1)
-		ft_putstr_fd("\033[31mError:\nto open the output file \e[0m", 2);
+		ft_putstr_fd("\033[31mError:\nto open the output file \n\e[0m", 2);
 }
 
 void	ft_check_args(int ac, char **av, t_pipex *pipex)
@@ -42,7 +39,7 @@ void	ft_check_args(int ac, char **av, t_pipex *pipex)
 		pipex->fd_infile = open(pipex->infile, O_RDONLY);
 		if (pipex->fd_infile == -1)
 		{
-			perror("\033[31mError:\nto open the input file \e[0m");
+			perror("\033[31mError:\nto open the input file /n\e[0m");
 			pipex->existance_infile = 1;
 		}
 	}
@@ -78,6 +75,8 @@ void	ft_parse_commands(int ac, char **av, t_pipex *pipex, char *env[])
 	int	i;
 
 	i = 2;
+	if (*av[ac - 2] == '\0')
+		ac --;
 	pipex->env = env;
 	pipex->cmds = ft_calloc(sizeof(char *), ac - 2);
 	pipex->paths = ft_calloc(sizeof(char *), ac - 2);

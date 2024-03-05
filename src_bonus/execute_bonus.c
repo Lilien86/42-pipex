@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute.c                                          :+:      :+:    :+:   */
+/*   execute_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 14:29:45 by lauger            #+#    #+#             */
-/*   Updated: 2024/03/01 20:33:20 by lauger           ###   ########.fr       */
+/*   Updated: 2024/03/05 12:38:27 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	close_pipe(int pipefd[2], t_pipex *pipex)
 
 static void	handle_child_two(int pipefd[2], t_pipex *pipex, int i)
 {
-	if (i == pipex->nb_exec - 1)
+	if (i == pipex->nb_elems - 1)
 	{
 		dup2(pipex->fd_outfile, STDOUT_FILENO);
 		if (pipex->fd_infile != -1)
@@ -91,23 +91,23 @@ void	ft_exec(t_pipex *pipex, int i)
 
 void	handle_execution(t_pipex *pipex, int i, char **av)
 {
+	int	size;
 
-	pipex->nb_exec = pipex->nb_elems;
+	size = pipex->nb_elems;
 	if (ft_strncmp(av[1], "here_doc", ft_strlen("here_doc")) == 0)
 	{
-		//if (pipex->fd_outfile == -1 || pipex->cmds[pipex->nb_elems] == NULL)
-		pipex->nb_exec--;
-		while (i < pipex->nb_exec)
-		{
-			ft_exec_here_doc(pipex, i);
-			i++;
-		}
+		if (pipex->fd_outfile == -1)
+			size--;
+		while (i < size)
+			ft_exec_here_doc(pipex, i++);
 	}
 	else
 	{
-		//if (pipex->fd_outfile == -1 || pipex->cmds[pipex->nb_elems] == NULL)
-		pipex->nb_exec--;
-		while (i < pipex->nb_exec)
+		if (pipex->existance_infile == 1)
+			i++;
+		if (pipex->fd_outfile == -1)
+			size--;
+		while (i < size)
 		{
 			ft_exec(pipex, i);
 			i++;
