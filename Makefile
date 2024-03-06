@@ -6,7 +6,7 @@
 #    By: lauger <lauger@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/06 11:01:31 by marvin            #+#    #+#              #
-#    Updated: 2024/03/05 12:18:07 by lauger           ###   ########.fr        #
+#    Updated: 2024/03/06 09:19:02 by lauger           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,7 @@ $(OBJ_DIR)/%.o: ./src_bonus/%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -I$(LIBFT) -c $< -o $@
 
 $(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
+	/bin/mkdir -p $(OBJ_DIR)
 
 bonus : $(NAME_BONUS)
 

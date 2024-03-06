@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 09:35:35 by lauger            #+#    #+#             */
-/*   Updated: 2024/03/05 13:24:36 by lauger           ###   ########.fr       */
+/*   Updated: 2024/03/06 09:53:47 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,6 @@ static int	ft_verif(char **buffer, char **line)
 	return (0);
 }
 
-char	*function(char *buffer, char *line)
-{
-	free(buffer);
-	buffer = NULL;
-	if (*line)
-		return (line);
-	free(line);
-	return (NULL);
-}
-
 char	*get_next_line(int fd)
 {
 	static char	*buffer;
@@ -64,7 +54,12 @@ char	*get_next_line(int fd)
 		{
 			if (r == 0 && *line)
 				return (line);
-			return (function(buffer, line));
+			free(buffer);
+			buffer = NULL;
+			if (*line)
+				return (line);
+			free(line);
+			return (NULL);
 		}
 		buffer[r] = 0;
 		line = ft_strjoin(line, buffer);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 09:29:55 by marvin            #+#    #+#             */
-/*   Updated: 2024/03/05 12:28:59 by lauger           ###   ########.fr       */
+/*   Updated: 2024/03/05 12:25:47 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static t_pipex	*init_pipex(void)
 	pipex->fd_infile = 0;
 	pipex->fd_outfile = 0;
 	pipex->here_doc = 0;
-	pipex->existance_infile = 0;
+	pipex->existance_infile = -1;
 	pipex->pipe_hd[0] = -1;
 	pipex->pipe_hd[1] = -1;
 	pipex->infile = NULL;

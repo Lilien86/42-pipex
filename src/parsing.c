@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 11:32:22 by lauger            #+#    #+#             */
-/*   Updated: 2024/03/05 09:31:10 by lauger           ###   ########.fr       */
+/*   Updated: 2024/03/05 12:27:43 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	ft_check_args_two(int ac, char **av, t_pipex *pipex)
 		pipex->fd_outfile = open(pipex->outfile, O_WRONLY
 				| O_CREAT | O_TRUNC, 0644);
 	if (pipex->fd_outfile == -1)
-		ft_putstr_fd("\033[31mError:\nto open the output file \e[0m", 2);
+		ft_putstr_fd("\033[31mError:\nto open the output file \n\e[0m", 2);
 }
 
 void	ft_check_args(int ac, char **av, t_pipex *pipex)
@@ -39,7 +39,7 @@ void	ft_check_args(int ac, char **av, t_pipex *pipex)
 		pipex->fd_infile = open(pipex->infile, O_RDONLY);
 		if (pipex->fd_infile == -1)
 		{
-			perror("\033[31mError:\nto open the input file \e[0m");
+			perror("\033[31mError:\nto open the input file /n\e[0m");
 			pipex->existance_infile = 1;
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 14:29:45 by lauger            #+#    #+#             */
-/*   Updated: 2024/03/05 12:38:27 by lauger           ###   ########.fr       */
+/*   Updated: 2024/03/06 10:31:31 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	handle_child_two(int pipefd[2], t_pipex *pipex, int i)
 	if (!pipex->paths[i])
 	{
 		free_all(pipex);
-		ft_putstr_fd("\033[31mError:\ncommand not found:\033[0m", 2);
+		ft_putstr_fd("\033[31mError:\ncommand not found:\n\033[0m", 2);
 		exit(EXIT_FAILURE);
 	}
 	execve(pipex->paths[i], pipex->cmds[i], pipex->env);
