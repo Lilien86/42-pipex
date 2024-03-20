@@ -6,12 +6,12 @@
 #    By: lauger <lauger@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/06 11:01:31 by marvin            #+#    #+#              #
-#    Updated: 2024/03/06 09:19:02 by lauger           ###   ########.fr        #
+#    Updated: 2024/03/08 17:43:06 by lauger           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ./pipex
-NAME_BONUS = ./pipex_bonus
+NAME_BONUS = ./pipex
 
 LIBFT = ./libft
 LIBFT_LIBRARY = $(LIBFT)/libft.a
@@ -21,10 +21,13 @@ CFLAGS = -g -Wextra -Werror -Wall -I $(LIBFT)
 LDFLAGS = -L $(LIBFT) -lft
 
 SRC = ./src/main.c ./src/utils.c ./src/execute.c ./src/execute_here_doc.c \
-./src/pars_here_doc.c ./src/parsing.c ./src/commands_free.c
+./src/pars_here_doc.c ./src/parsing.c ./src/commands_free.c \
+./src/close_pipe.c
 
-SRC_BONUS = ./src_bonus/main_bonus.c ./src_bonus/utils_bonus.c ./src_bonus/execute_bonus.c ./src_bonus/execute_here_doc_bonus.c \
-./src_bonus/pars_here_doc_bonus.c ./src_bonus/parsing_bonus.c ./src_bonus/commands_free_bonus.c
+SRC_BONUS = ./src_bonus/main_bonus.c ./src_bonus/utils_bonus.c \
+./src_bonus/execute_bonus.c ./src_bonus/execute_here_doc_bonus.c \
+./src_bonus/pars_here_doc_bonus.c ./src_bonus/parsing_bonus.c \
+./src_bonus/commands_free_bonus.c ./src_bonus/close_pipe_bonus.c
 
 OBJ_DIR = ./obj
 OBJ = $(SRC:./src/%.c=$(OBJ_DIR)/%.o)
@@ -62,4 +65,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re gdb gdb_bonus
+.PHONY: all clean fclean re

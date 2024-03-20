@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 09:35:35 by lauger            #+#    #+#             */
-/*   Updated: 2024/03/06 09:53:47 by lauger           ###   ########.fr       */
+/*   Updated: 2024/03/07 12:55:03 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,35 +34,29 @@ static int	ft_verif(char **buffer, char **line)
 	return (0);
 }
 
-char	*get_next_line(int fd)
+char	*get_next_line(int fd, char **buffer)
 {
-	static char	*buffer;
 	char		*line;
 	int			r;
 
-	if (fd == -12)
-	{
-		free(buffer);
+	if (ft_verif(buffer, &line))
 		return (NULL);
-	}
-	if (ft_verif(&buffer, &line))
-		return (NULL);
-	while (check_str_char(line, buffer) == 0)
+	while (check_str_char(line, *buffer) == 0)
 	{
-		r = read(fd, buffer, BUFFER_SIZE);
+		r = read(fd, *buffer, BUFFER_SIZE);
 		if (r <= 0)
 		{
 			if (r == 0 && *line)
 				return (line);
-			free(buffer);
-			buffer = NULL;
+			free(*buffer);
+			*buffer = NULL;
 			if (*line)
 				return (line);
 			free(line);
 			return (NULL);
 		}
-		buffer[r] = 0;
-		line = ft_strjoin(line, buffer);
+		(*buffer)[r] = 0;
+		line = ft_strjoin(line, *buffer);
 	}
 	return (line);
 }

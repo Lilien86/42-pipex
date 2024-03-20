@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 09:05:20 by lauger            #+#    #+#             */
-/*   Updated: 2024/03/06 09:12:23 by lauger           ###   ########.fr       */
+/*   Updated: 2024/03/08 11:12:12 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,23 +39,27 @@ static void	handle_while_two(char **line, char **tmp)
 
 static void	handle_while(char **line, char **tmp, char *limiter)
 {
+	static char	*buffer;
+
 	while (true)
 	{
 		handle_while_two(line, tmp);
-		*tmp = get_next_line(0);
+		*tmp = get_next_line(0, &buffer);
 		if (*tmp)
 		{
 			if (is_limiter(*line, *tmp, limiter) == 0)
 				*line = ft_strjoin(*line, *tmp);
 			else if (*line && is_limiter(*line, *tmp, limiter) == 1)
 			{
-				get_next_line(-12);
+				free(buffer);
+				buffer = NULL;
 				break ;
 			}
 		}
 		else if ((*line)[0] == '\0' || (*line)[ft_strlen(*line) - 1] == '\n')
 		{
-			get_next_line(-12);
+			free(buffer);
+			buffer = NULL;
 			ft_printf("\nError:\na limiter is expected\n");
 			break ;
 		}
@@ -76,7 +80,7 @@ static void	handle_child(char *limiter, t_pipex *pipex)
 	write(pipex->pipe_hd[1], line, ft_strlen(line));
 	free(line);
 	free(tmp);
-	close_pipe(NULL, pipex);
+	close_pipe(NULL, pipex, -1);
 	free_all(pipex);
 	exit(0);
 }

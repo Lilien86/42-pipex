@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 14:25:45 by lauger            #+#    #+#             */
-/*   Updated: 2024/02/09 11:16:48 by lauger           ###   ########.fr       */
+/*   Updated: 2024/03/07 12:40:47 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int			ft_putstr_len(char *str);
 ####Get_Next_Line######################
 *///###################################
 
-char		*get_next_line(int fd);
+char		*get_next_line(int fd, char **buffer);
 int			check_str_char(char *line, char *buffer);
 char		*ft_strjoin_modif(char *s1, char *s2);
 
@@ -107,5 +107,6 @@ void		ft_free_lst(t_list *head);
 char		*ft_strcpy(char *dest, const char *src);
 char		*ft_strcat(char *dest, const char *src);
 char		*ft_strncpy(char *dest, const char *src, size_t n);
+char		*get_next_line_a(int fd);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 09:29:55 by marvin            #+#    #+#             */
-/*   Updated: 2024/03/05 12:25:47 by lauger           ###   ########.fr       */
+/*   Updated: 2024/03/08 11:19:24 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	main(int ac, char **av, char *env[])
 	int		i;
 
 	i = 0;
+	pipex = NULL;
 	if (ac >= 5 && ac <= 512)
 	{
 		pipex = init_pipex();
@@ -57,5 +58,6 @@ int	main(int ac, char **av, char *env[])
 	else
 		ft_putstr_fd("\033[31mError:\nbad arguments \033[0m: is expected :\n"
 			"./pipex infile cmd1 cmd2 outfile", 2);
+	close_pipe(NULL, pipex, 1);
 	return (0);
 }
